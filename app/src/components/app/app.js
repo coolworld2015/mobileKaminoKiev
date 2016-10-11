@@ -18,18 +18,47 @@ import {
 
 console.disableYellowBox = true;
 
+import Login from './login';
 import AppContainer from './appContainer';
 
 class App extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            checkingAuth: false,
+            showProgress: false,
+            isLoggedIn: false
+        }
     }
 
     render() {
-        return (
-            <AppContainer />
-        )
+        if (this.state.checkingAuth) {
+            return (
+                <View style={styles.container}>
+                    <ActivityIndicatorIOS
+                        animating={true}
+                        size="large"
+                        style={styles.loader}/>
+                </View>
+            )
+        }
 
+        if (this.state.isLoggedIn) {
+            return (
+                <AppContainer />
+            )
+        } else {
+            return (
+                <Login onLogin={this.onLogin.bind(this)}/>
+            )
+        }
+    }
+
+    onLogin() {
+        console.log('onLogin');
+        this.setState({
+            isLoggedIn: true
+        });
     }
 }
 

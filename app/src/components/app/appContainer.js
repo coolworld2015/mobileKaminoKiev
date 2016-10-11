@@ -46,7 +46,7 @@ class AppContainer extends Component {
                         }}
                         initialRoute={{
                             component: Collection,
-                            title: 'Kamino Mobile Kiev'
+                            title: 'Mobile Kamino Kiev'
                         }}
                     />
                 </TabBarIOS.Item>
