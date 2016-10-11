@@ -22,6 +22,7 @@ class Login extends Component {
 
         this.state = {
             showProgress: false,
+            test: auth0.id_token
         }
     }
 
@@ -38,29 +39,54 @@ class Login extends Component {
             showProgress: true
         });
 
-        fetch('http://ui-base.herokuapp.com/api/users/findByName/'
-            + this.state.username, {
-            method: 'get',
+        // var item = {
+        //     client_id: 'gpQeYeZGke7da9ag6bYpyJIZcaXIJxF2',
+        //     connection: 'Username-Password-Authentication',
+        //     device: '123456789',
+        //     grant_type: 'password',
+        //     password: 'Test1234',
+        //     scope: 'openid offline_access',
+        //     username: 'sergey.sydorenko@wdc.com'
+        // };
+        // var url = 'https://wdc-qa1.auth0.com/oauth/ro';
+
+        fetch('https://wdc-qa1.auth0.com/oauth/ro', {
+            method: 'POST',
+            body: JSON.stringify({
+                client_id: 'gpQeYeZGke7da9ag6bYpyJIZcaXIJxF2',
+                connection: 'Username-Password-Authentication',
+                device: '123456789',
+                grant_type: 'password',
+                password: 'Test1234',
+                scope: 'openid offline_access',
+                username: 'sergey.sydorenko@wdc.com'
+            }),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         })
+
+        // fetch('http://ui-base.herokuapp.com/api/users/findByName/'
+        //     + this.state.username, {
+        //     method: 'get',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
             .then((response)=> response.json())
             .then((responseData)=> {
-                if (this.state.password == responseData.pass) {
 
-                    this.setState({
-                        badCredentials: false
-                    });
+                console.log(responseData.id_token);
 
-                    this.props.onLogin().bind(this);
+                auth0.id_token = responseData.id_token;
 
-                } else {
-                    this.setState({
-                        badCredentials: true
-                    });
-                }
+                this.setState({
+                    test: auth0.id_token
+                });
+
+                this.props.onLogin().bind(this);
             })
             .catch((error)=> {
                 this.setState({
@@ -92,7 +118,7 @@ class Login extends Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <Text style={styles.heading}>Mobile Kamino Kiev</Text>
+                    <Text style={styles.heading}>Mobile Kamino Kiev {this.state.test}</Text>
                     <Image style={styles.logo}
                            source={require('../../../logo.png')}
                     />
@@ -103,17 +129,19 @@ class Login extends Component {
                             badCredentials: false
                         })}
                         style={styles.loginInput}
-                        placeholder="Login"></TextInput>
+                        placeholder="Login">
+                    </TextInput>
                     <TextInput
                         onChangeText={(text)=> this.setState({
                             password: text,
                             badCredentials: false
                         })}
                         style={styles.loginInput}
-                        placeholder="Password" secureTextEntry={true}></TextInput>
+                        placeholder="Password" secureTextEntry={true}>
+                    </TextInput>
                     <TouchableHighlight
-                        onPress={this.onLoginPressed.bind(this)}
-                        //onPress={()=> this.getUser()}
+                        //onPress={this.onLoginPressed.bind(this)}
+                        onPress={()=> this.getUser()}
                         style={styles.button}>
                         <Text style={styles.buttonText}>Log in</Text>
                     </TouchableHighlight>
@@ -160,8 +188,8 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 25,
-        marginTop: 30,
-        marginBottom: 30
+        marginTop: 20,
+        marginBottom: 20
     },
     loginInput1: {
         height: 50,
