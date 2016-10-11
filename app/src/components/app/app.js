@@ -29,7 +29,14 @@ class App extends Component {
             showProgress: false,
             isLoggedIn: false
         };
-        auth0 = {id_token: ''};
+
+        //var deviceURI = 'https://dev1-proxy1.wdtest1.com:9443/53f76651-1f9c-4083-85f0-dbf7f5e95326';
+
+        auth0 = {
+            id_token: '',
+            deviceURI: 'https://qa1-proxy1.wdtest2.com:9443/9ebfcfef-ed18-4c24-8499-44723bfa8560',
+            getFilesURI: '/sdk/v2/filesSearch/parents?ids=root&limit=28'
+        };
     }
 
     render() {

@@ -52,7 +52,6 @@ class AppContainer extends Component {
                 </TabBarIOS.Item>
 
 
-
             </TabBarIOS>
         );
     }

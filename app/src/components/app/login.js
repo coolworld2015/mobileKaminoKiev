@@ -39,17 +39,6 @@ class Login extends Component {
             showProgress: true
         });
 
-        // var item = {
-        //     client_id: 'gpQeYeZGke7da9ag6bYpyJIZcaXIJxF2',
-        //     connection: 'Username-Password-Authentication',
-        //     device: '123456789',
-        //     grant_type: 'password',
-        //     password: 'Test1234',
-        //     scope: 'openid offline_access',
-        //     username: 'sergey.sydorenko@wdc.com'
-        // };
-        // var url = 'https://wdc-qa1.auth0.com/oauth/ro';
-
         fetch('https://wdc-qa1.auth0.com/oauth/ro', {
             method: 'POST',
             body: JSON.stringify({
@@ -66,15 +55,6 @@ class Login extends Component {
                 'Content-Type': 'application/json'
             }
         })
-
-        // fetch('http://ui-base.herokuapp.com/api/users/findByName/'
-        //     + this.state.username, {
-        //     method: 'get',
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
             .then((response)=> response.json())
             .then((responseData)=> {
 
