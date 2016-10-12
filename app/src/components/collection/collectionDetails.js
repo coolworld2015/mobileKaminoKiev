@@ -80,7 +80,7 @@ class CollectionDetails extends Component {
                     </Text>
 
                     <Text style={styles.welcome}>
-                        ID: {this.state.pushEvent.id}
+                        {this.state.pushEvent.mimeType}
                     </Text>
 
                 </View>

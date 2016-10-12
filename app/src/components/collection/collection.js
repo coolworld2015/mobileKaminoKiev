@@ -52,9 +52,9 @@ class Collection extends Component {
             .then((responseData)=> {
                 console.log(responseData.files);
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.files.slice(3, 100)),
-                    resultsCount: responseData.files.slice(3, 100).length,
-                    responseData: responseData.files.slice(3, 100)
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.files.slice(3, 1000)),
+                    resultsCount: responseData.files.slice(3, 1000).length,
+                    responseData: responseData.files.slice(3, 1000)
                 });
 
             })
