@@ -37,7 +37,7 @@ class Collection extends Component {
 
     getCollection() {
         var deviceURI = auth0.deviceURI + auth0.deviceId;
-        auth0.deviceURI = deviceURI;
+        //auth0.deviceURI = deviceURI;
         var getFilesURI = auth0.getFilesURI;
         var access_token = auth0.id_token;
 
@@ -87,7 +87,7 @@ class Collection extends Component {
     getThumbnailURI(item, size = 400) {
         var fileId = item.id;
         var uri;
-
+        var deviceURI = auth0.deviceURI + auth0.deviceId;
         if (item.mimeType == 'application/x.wd.dir') {
             uri = '../../../folder.png';
             return uri;
@@ -98,7 +98,7 @@ class Collection extends Component {
             return uri;
         }
 
-        uri = auth0.deviceURI +
+        uri = deviceURI +
             '/sdk/v2/files/' + fileId +
             '/content?width=' + size +
             '&height=' + size +

@@ -136,7 +136,7 @@ class Login extends Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <Text style={styles.heading}>Mobile Kamino Kiev {this.state.test}</Text>
+                    <Text style={styles.heading}>Mobile Kamino Kiev</Text>
                     <Image style={styles.logo}
                            source={require('../../../logo.png')}
                     />
@@ -147,6 +147,7 @@ class Login extends Component {
                             badCredentials: false
                         })}
                         style={styles.loginInput}
+                        value={this.state.username}
                         placeholder="Login">
                     </TextInput>
                     <TextInput
@@ -155,6 +156,7 @@ class Login extends Component {
                             badCredentials: false
                         })}
                         style={styles.loginInput}
+                        value={this.state.password}
                         placeholder="Password" secureTextEntry={true}>
                     </TextInput>
                     <TouchableHighlight
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'lightgray',
         borderRadius: 0,
-        color: 'gray'
+        color: 'black'
     },
     button: {
         height: 50,

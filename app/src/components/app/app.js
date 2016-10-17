@@ -54,7 +54,7 @@ class App extends Component {
 
         if (this.state.isLoggedIn) {
             return (
-                <AppContainer />
+                <AppContainer onLogOut={this.onLogOut.bind(this)}/>
             )
         } else {
             return (
@@ -67,6 +67,13 @@ class App extends Component {
         console.log('onLogin');
         this.setState({
             isLoggedIn: true
+        });
+    }
+
+    onLogOut() {
+        console.log('onLogOut');
+        this.setState({
+            isLoggedIn: false
         });
     }
 }

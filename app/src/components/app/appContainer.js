@@ -29,6 +29,10 @@ class AppContainer extends Component {
         }
     }
 
+    onLogOut() {
+        this.props.onLogOut();
+    }
+
     render() {
 
         return (
@@ -51,6 +55,14 @@ class AppContainer extends Component {
                     />
                 </TabBarIOS.Item>
 
+                <TabBarIOS.Item
+                    title="Logout"
+                    systemIcon="more"
+                    selected={this.state.selectedTab == 'Logout'}
+                    onPress={this.onLogOut.bind(this)}>
+
+
+                </TabBarIOS.Item>
 
             </TabBarIOS>
         );
