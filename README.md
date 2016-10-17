@@ -1,7 +1,7 @@
-# Mobile Kamino Kiev
-git clone https://github.com/coolworld2015/mobileKaminoKiev.git
+# RN Kamino
+git clone https://github.com/coolworld2015/rn-kamino.git
 -------------------------------------------------------------------------------------------------
-git config --global user.name "coolworld2015"
+git config user.name "coolworld2015"
 -------------------------------------------------------------------------------------------------
-git config --global user.email "wintermute2015@ukr.net"
+git config user.email "wintermute2015@ukr.net"
 -------------------------------------------------------------------------------------------------
