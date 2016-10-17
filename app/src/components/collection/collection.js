@@ -88,6 +88,7 @@ class Collection extends Component {
         var fileId = item.id;
         var uri;
         var deviceURI = auth0.deviceURI + auth0.deviceId;
+
         if (item.mimeType == 'application/x.wd.dir') {
             uri = '../../../folder.png';
             return uri;

@@ -134,7 +134,7 @@ class Login extends Component {
         return (
             <ScrollView>
                 <View style={styles.container}>
-                    <Text style={styles.heading}>Mobile Kamino Kiev</Text>
+                    {/*<Text style={styles.heading}>My Cloud</Text>*/}
                     <Image style={styles.logo}
                            source={require('../../../logo.png')}
                     />
@@ -201,8 +201,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     logo: {
-        marginTop: 0,
-        marginBottom: 20
+        marginTop: 30,
+        marginBottom: 30
     },
     heading: {
         fontSize: 25,

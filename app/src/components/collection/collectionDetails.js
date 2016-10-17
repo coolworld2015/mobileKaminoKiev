@@ -26,8 +26,7 @@ class CollectionDetails extends Component {
     }
 
     getThumbnailURI(item, size = 400) {
-        var deviceURI = auth0.deviceURI;
-        var access_token = auth0.id_token;
+        var deviceURI = auth0.deviceURI + auth0.deviceId;
         var fileId = item.id;
         var uri;
 
@@ -35,7 +34,7 @@ class CollectionDetails extends Component {
             '/sdk/v2/files/' + fileId +
             '/content?width=' + size +
             '&height=' + size +
-            '&access_token=' + access_token;
+            '&access_token=' + auth0.id_token;
 
         return uri;
     }
