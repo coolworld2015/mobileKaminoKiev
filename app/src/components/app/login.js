@@ -79,7 +79,7 @@ class Login extends Component {
 
                         console.log('user_id - ' + auth0.user_id);
 
-                        fetch('https://qa1-device.remotewd1.com/device/v1/user/auth0|57fda9349bdfd06f79c071a2', {
+                        fetch('https://qa1-device.remotewd1.com/device/v1/user/' + auth0.user_id, {
                             method: 'GET',
                             headers: {
                                 'Authorization': 'Bearer ' + auth0.id_token
@@ -87,37 +87,32 @@ class Login extends Component {
                         })
                             .then((response)=> response.json())
                             .then((responseData)=> {
-                                console.log(responseData);
-
-                                //auth0.deviceId = responseData.data[0].deviceId;
-
-                                //console.log('deviceId - ' + auth0.deviceId);
-
+                                auth0.deviceId = responseData.data[0].deviceId;
+                                console.log('deviceId - ' + auth0.deviceId);
+                                this.props.onLogin().bind(this);
 
                             })
                             .catch((error)=> {
-                                console.dir(error);
                                 this.setState({
-                                    badCredentials: true
+                                    badCredentials: true,
+                                    showProgress: false
                                 });
                             });
+
 
                     })
                     .catch((error)=> {
                         this.setState({
-                            badCredentials: true
+                            badCredentials: true,
+                            showProgress: false
                         });
                     });
 
-                //this.props.onLogin().bind(this);
+
             })
             .catch((error)=> {
                 this.setState({
-                    badCredentials: true
-                });
-            })
-            .finally(()=> {
-                this.setState({
+                    badCredentials: true,
                     showProgress: false
                 });
             });

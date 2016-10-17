@@ -36,9 +36,13 @@ class Collection extends Component {
     }
 
     getCollection() {
-        var deviceURI = auth0.deviceURI;
+        var deviceURI = auth0.deviceURI + auth0.deviceId;
+        auth0.deviceURI = deviceURI;
         var getFilesURI = auth0.getFilesURI;
         var access_token = auth0.id_token;
+
+        //deviceURI = 'https://qa1-proxy1.wdtest2.com:9443/1cfbaa2e-e2ea-463a-aaea-840a49a3ea8f';
+        console.log('deviceURI');
 
         fetch(deviceURI + getFilesURI, {
             method: 'get',
@@ -50,11 +54,11 @@ class Collection extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-                console.log(responseData.files);
+                console.log(responseData);
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.files.slice(3, 1000)),
-                    resultsCount: responseData.files.slice(3, 1000).length,
-                    responseData: responseData.files.slice(3, 1000)
+                    dataSource: this.state.dataSource.cloneWithRows(responseData.files),
+                    resultsCount: responseData.files.length,
+                    responseData: responseData.files
                 });
 
             })
@@ -81,17 +85,24 @@ class Collection extends Component {
     }
 
     getThumbnailURI(item, size = 400) {
-        var deviceURI = auth0.deviceURI;
-        var access_token = auth0.id_token;
         var fileId = item.id;
         var uri;
 
-        uri = deviceURI +
+        if (item.mimeType == 'application/x.wd.dir') {
+            uri = '../../../folder.png';
+            return uri;
+        }
+
+        if (!item.extension || item.extension == '.txt' || item.extension == ".pptx") {
+            uri = '../../../no-img.png';
+            return uri;
+        }
+
+        uri = auth0.deviceURI +
             '/sdk/v2/files/' + fileId +
             '/content?width=' + size +
             '&height=' + size +
-            '&access_token=' + access_token;
-
+            '&access_token=' + auth0.id_token;
         return uri;
     }
 
