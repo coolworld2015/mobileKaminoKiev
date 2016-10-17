@@ -22,7 +22,9 @@ class Login extends Component {
 
         this.state = {
             showProgress: false,
-            test: auth0.id_token
+            test: auth0.id_token,
+            username: 'kamino.web.team@gmail.com',
+            password: 'Kamino1234'
         }
     }
 
@@ -46,9 +48,11 @@ class Login extends Component {
                 connection: 'Username-Password-Authentication',
                 device: '123456789',
                 grant_type: 'password',
-                password: 'Test1234',
                 scope: 'openid offline_access',
-                username: 'sergey.sydorenko@wdc.com'
+                username: this.state.username,
+                    //'kamino.web.team@gmail.com',
+                password: this.state.password
+                    //'Kamino1234'
             }),
             headers: {
                 'Accept': 'application/json',
@@ -58,15 +62,54 @@ class Login extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
 
-                console.log(responseData.id_token);
-
+                auth0.access_token = responseData.access_token;
                 auth0.id_token = responseData.id_token;
 
-                this.setState({
-                    test: auth0.id_token
-                });
+                console.log(auth0);
 
-                this.props.onLogin().bind(this);
+                fetch('https://wdc-qa1.auth0.com/userinfo', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + auth0.access_token
+                    }
+                })
+                    .then((response)=> response.json())
+                    .then((responseData)=> {
+                        auth0.user_id = responseData.user_id;
+
+                        console.log('user_id - ' + auth0.user_id);
+
+                        fetch('https://qa1-device.remotewd1.com/device/v1/user/auth0|57fda9349bdfd06f79c071a2', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Bearer ' + auth0.id_token
+                            }
+                        })
+                            .then((response)=> response.json())
+                            .then((responseData)=> {
+                                console.log(responseData);
+
+                                //auth0.deviceId = responseData.data[0].deviceId;
+
+                                //console.log('deviceId - ' + auth0.deviceId);
+
+
+                            })
+                            .catch((error)=> {
+                                console.dir(error);
+                                this.setState({
+                                    badCredentials: true
+                                });
+                            });
+
+                    })
+                    .catch((error)=> {
+                        this.setState({
+                            badCredentials: true
+                        });
+                    });
+
+                //this.props.onLogin().bind(this);
             })
             .catch((error)=> {
                 this.setState({
