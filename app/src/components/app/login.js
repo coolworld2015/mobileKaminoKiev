@@ -50,9 +50,7 @@ class Login extends Component {
                 grant_type: 'password',
                 scope: 'openid offline_access',
                 username: this.state.username,
-                    //'kamino.web.team@gmail.com',
                 password: this.state.password
-                    //'Kamino1234'
             }),
             headers: {
                 'Accept': 'application/json',
