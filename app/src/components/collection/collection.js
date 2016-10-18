@@ -56,30 +56,31 @@ class Collection extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
                 console.log(responseData);
-                responseData.files.sort(this.sort);
+                if (responseData.files) {
+                    responseData.files.sort(this.sort);
 
-                var results = responseData.files.filter((el) => {
-                    return el.mimeType != 'application/octet-stream'
-                });
+                    var results = responseData.files.filter((el) => {
+                        return el.mimeType != 'application/octet-stream'
+                    });
 
-                var folders = results.filter((el) => {
-                    return (el.mimeType == 'application/x.wd.dir') && (el.name == 'Photos1')
+                    var folders = results.filter((el) => {
+                        return (el.mimeType == 'application/x.wd.dir') && (el.name == 'Photos1')
                         || (el.name == 'Photos2') || (el.name == 'Photos2')
                         || (el.name == 'Photos3')|| (el.name == 'Videos');
-                });
+                    });
 
-                var filesOnly = results.filter((el) => {
-                    return el.mimeType != 'application/x.wd.dir'
-                });
+                    var filesOnly = results.filter((el) => {
+                        return el.mimeType != 'application/x.wd.dir'
+                    });
 
-                var items = [].concat(folders, filesOnly);
+                    var items = [].concat(folders, filesOnly);
 
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(items),
-                    resultsCount: items.length,
-                    responseData: items.slice(0,25).files
-                });
-
+                    this.setState({
+                        dataSource: this.state.dataSource.cloneWithRows(items),
+                        resultsCount: items.length,
+                        responseData: items.slice(0, 25).files
+                    });
+                }
             })
             .catch((error)=> {
                 this.setState({
@@ -111,13 +112,10 @@ class Collection extends Component {
             auth0.parentID = rowData.parentID;
 
             this.setState({
-                showProgress: false,
-                dataSource: this.state.dataSource.cloneWithRows([]),
-                resultsCount: [].length,
-                responseData: [].files
+                showProgress: false
             });
 
-           // this.getCollection();
+            // this.getCollection();
             this.props.navigator.push({
                 title: rowData.name,
                 component: Collection,
