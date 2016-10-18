@@ -43,7 +43,7 @@ class Collection extends Component {
         auth0.rootID = auth0.parentID;
 
         //deviceURI = 'https://qa1-proxy1.wdtest2.com:9443/1cfbaa2e-e2ea-463a-aaea-840a49a3ea8f';
-        console.log('deviceURI');
+        //console.log('deviceURI');
 
         fetch(deviceURI + getFilesURI, {
             method: 'get',
@@ -55,7 +55,7 @@ class Collection extends Component {
         })
             .then((response)=> response.json())
             .then((responseData)=> {
-                console.log(responseData);
+                //console.log(responseData);
                 if (responseData.files) {
                     responseData.files.sort(this.sort);
 
@@ -78,7 +78,7 @@ class Collection extends Component {
                     this.setState({
                         dataSource: this.state.dataSource.cloneWithRows(items),
                         resultsCount: items.length,
-                        responseData: items.slice(0, 25).files
+                        responseData: items
                     });
                 }
             })
@@ -106,7 +106,7 @@ class Collection extends Component {
     }
 
     pressRow(rowData) {
-        console.log(rowData);
+        //console.log(rowData);
         if (rowData.mimeType == 'application/x.wd.dir') {
             auth0.rootID = rowData.id;
             auth0.parentID = rowData.parentID;
@@ -254,6 +254,7 @@ class Collection extends Component {
                     }}
                                onChangeText={(text)=> {
                                    var arr = [].concat(this.state.responseData);
+                                   //console.log(arr);
                                    var items = arr.filter((el) => el.name.indexOf(text) != -1);
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),

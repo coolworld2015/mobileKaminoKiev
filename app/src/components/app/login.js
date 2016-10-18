@@ -63,7 +63,7 @@ class Login extends Component {
                 auth0.access_token = responseData.access_token;
                 auth0.id_token = responseData.id_token;
 
-                console.log(auth0);
+                //console.log(auth0);
 
                 fetch('https://wdc-qa1.auth0.com/userinfo', {
                     method: 'GET',
@@ -75,7 +75,7 @@ class Login extends Component {
                     .then((responseData)=> {
                         auth0.user_id = responseData.user_id;
 
-                        console.log('user_id - ' + auth0.user_id);
+                        //console.log('user_id - ' + auth0.user_id);
 
                         fetch('https://qa1-device.remotewd1.com/device/v1/user/' + auth0.user_id, {
                             method: 'GET',
@@ -86,7 +86,7 @@ class Login extends Component {
                             .then((response)=> response.json())
                             .then((responseData)=> {
                                 auth0.deviceId = responseData.data[0].deviceId;
-                                console.log('deviceId - ' + auth0.deviceId);
+                                //console.log('deviceId - ' + auth0.deviceId);
                                 this.props.onLogin().bind(this);
 
                             })
