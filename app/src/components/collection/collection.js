@@ -37,9 +37,10 @@ class Collection extends Component {
 
     getCollection() {
         var deviceURI = auth0.deviceURI + auth0.deviceId;
-        //auth0.deviceURI = deviceURI;
-        var getFilesURI = auth0.getFilesURI;
+        var getFilesURI = auth0.getFilesURI + auth0.rootID + '&limit=1000';
         var access_token = auth0.id_token;
+
+        auth0.rootID = auth0.parentID;
 
         //deviceURI = 'https://qa1-proxy1.wdtest2.com:9443/1cfbaa2e-e2ea-463a-aaea-840a49a3ea8f';
         console.log('deviceURI');
@@ -74,8 +75,8 @@ class Collection extends Component {
                 var items = [].concat(folders, filesOnly);
 
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(items.slice(0,25)),
-                    resultsCount: items.slice(0,25).length,
+                    dataSource: this.state.dataSource.cloneWithRows(items),
+                    resultsCount: items.length,
                     responseData: items.slice(0,25).files
                 });
 
@@ -104,6 +105,28 @@ class Collection extends Component {
     }
 
     pressRow(rowData) {
+        console.log(rowData);
+        if (rowData.mimeType == 'application/x.wd.dir') {
+            auth0.rootID = rowData.id;
+            auth0.parentID = rowData.parentID;
+
+            this.setState({
+                showProgress: false,
+                dataSource: this.state.dataSource.cloneWithRows([]),
+                resultsCount: [].length,
+                responseData: [].files
+            });
+
+           // this.getCollection();
+            this.props.navigator.push({
+                title: rowData.name,
+                component: Collection,
+                passProps: {
+                    pushEvent: rowData
+                }
+            });
+        }
+
         this.props.navigator.push({
             title: rowData.name,
             component: CollectionDetails,
