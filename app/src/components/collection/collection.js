@@ -55,10 +55,28 @@ class Collection extends Component {
             .then((response)=> response.json())
             .then((responseData)=> {
                 console.log(responseData);
+                responseData.files.sort(this.sort);
+
+                var results = responseData.files.filter((el) => {
+                    return el.mimeType != 'application/octet-stream'
+                });
+
+                var folders = results.filter((el) => {
+                    return (el.mimeType == 'application/x.wd.dir') && (el.name == 'Photos1')
+                        || (el.name == 'Photos2') || (el.name == 'Photos2')
+                        || (el.name == 'Photos3')|| (el.name == 'Videos');
+                });
+
+                var filesOnly = results.filter((el) => {
+                    return el.mimeType != 'application/x.wd.dir'
+                });
+
+                var items = [].concat(folders, filesOnly);
+
                 this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(responseData.files),
-                    resultsCount: responseData.files.length,
-                    responseData: responseData.files
+                    dataSource: this.state.dataSource.cloneWithRows(items.slice(0,25)),
+                    resultsCount: items.slice(0,25).length,
+                    responseData: items.slice(0,25).files
                 });
 
             })
@@ -74,6 +92,17 @@ class Collection extends Component {
             });
     }
 
+    sort(a, b) {
+        var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+        if (nameA < nameB) {
+            return -1
+        }
+        if (nameA > nameB) {
+            return 1
+        }
+        return 0;
+    }
+
     pressRow(rowData) {
         this.props.navigator.push({
             title: rowData.name,
@@ -84,7 +113,8 @@ class Collection extends Component {
         });
     }
 
-    getThumbnailURI(item, size = 400) {
+    getThumbnailURI(item) {
+        var size = 400;
         var fileId = item.id;
         var uri;
         var deviceURI = auth0.deviceURI + auth0.deviceId;
@@ -94,10 +124,10 @@ class Collection extends Component {
             return uri;
         }
 
-        if (!item.extension || item.extension == '.txt' || item.extension == ".pptx") {
-            uri = '../../../no-img.png';
-            return uri;
-        }
+        // if (!item.extension || item.extension == '.txt' || item.extension == ".pptx") {
+        //     uri = '../../../no-img.png';
+        //     return uri;
+        // }
 
         uri = deviceURI +
             '/sdk/v2/files/' + fileId +
@@ -109,11 +139,20 @@ class Collection extends Component {
 
     renderRow(rowData) {
         var pic;
-        if (!rowData.extension || rowData.extension == '.txt') {
+
+        if (rowData.extension == '.txt') {
             pic = <Image
                 source={require('../../../no-img.png')}
                 resizeMode='stretch'
                 style={styles.img1}
+            />
+        }
+
+        if (rowData.mimeType == 'application/x.wd.dir') {
+            pic = <Image
+                source={require('../../../folder.png')}
+                resizeMode='stretch'
+                style={styles.img}
             />
         } else {
             pic = <Image
