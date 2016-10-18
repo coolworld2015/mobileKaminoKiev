@@ -64,9 +64,10 @@ class Collection extends Component {
                     });
 
                     var folders = results.filter((el) => {
-                        return (el.mimeType == 'application/x.wd.dir') && (el.name == 'Photos1')
-                            || (el.name == 'Photos2') || (el.name == 'Photos2')
-                            || (el.name == 'Photos3') || (el.name == 'Videos');
+                        return (el.mimeType == 'application/x.wd.dir');
+                            // && (el.name == 'Photos1')
+                            // || (el.name == 'Photos2') || (el.name == 'Photos2')
+                            // || (el.name == 'Photos3') || (el.name == 'Videos');
                     });
 
                     var filesOnly = results.filter((el) => {
@@ -150,8 +151,8 @@ class Collection extends Component {
 
     renderRow(rowData) {
         var pic, line;
+        var extension = rowData.extension;
         //console.log(rowData.extension);
-
 
         if (rowData.mimeType == 'application/x.wd.dir') {
             pic = <Image
@@ -167,7 +168,9 @@ class Collection extends Component {
                 <Text style={{fontWeight: 'bold', marginTop: 15}}>{rowData.name}</Text>
             </View>
 
-        } else if (!rowData.extension || rowData.extension == '.pptx') {
+        } else if (!extension || extension != '.jpg' && extension != '.jpeg' && extension != '.png'
+             && extension != '.mov' && extension != '.mp4' && extension != '.m4v' && extension != '.avi' && extension != '.mkv') {
+
             pic = <Image
                 source={require('../../../no-img.png')}
                 resizeMode='stretch'

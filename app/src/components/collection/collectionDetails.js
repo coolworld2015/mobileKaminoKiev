@@ -42,8 +42,10 @@ class CollectionDetails extends Component {
 
     render() {
         var pic;
-        if (!this.state.pushEvent.extension || this.state.pushEvent.extension == '.txt'
-            || this.state.pushEvent.extension == '.pptx') {
+        var extension = this.state.pushEvent.extension;
+
+        if (!extension || extension != '.jpg' && extension != '.jpeg' && extension != '.png'
+            && extension != '.mov' && extension != '.mp4' && extension != '.m4v' && extension != '.avi' && extension != '.mkv') {
             pic = <Image
                 source={require('../../../no-img.png')}
                 resizeMode='stretch'
