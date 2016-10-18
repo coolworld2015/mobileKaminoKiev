@@ -25,7 +25,8 @@ class CollectionDetails extends Component {
         };
     }
 
-    getThumbnailURI(item, size = 400) {
+    getThumbnailURI(item) {
+        var size = 400;
         var deviceURI = auth0.deviceURI + auth0.deviceId;
         var fileId = item.id;
         var uri;
@@ -41,7 +42,8 @@ class CollectionDetails extends Component {
 
     render() {
         var pic;
-        if (!this.state.pushEvent.extension || this.state.pushEvent.extension == '.txt') {
+        if (!this.state.pushEvent.extension || this.state.pushEvent.extension == '.txt'
+            || this.state.pushEvent.extension == '.pptx') {
             pic = <Image
                 source={require('../../../no-img.png')}
                 resizeMode='stretch'

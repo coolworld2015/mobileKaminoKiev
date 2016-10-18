@@ -65,8 +65,8 @@ class Collection extends Component {
 
                     var folders = results.filter((el) => {
                         return (el.mimeType == 'application/x.wd.dir') && (el.name == 'Photos1')
-                        || (el.name == 'Photos2') || (el.name == 'Photos2')
-                        || (el.name == 'Photos3')|| (el.name == 'Videos');
+                            || (el.name == 'Photos2') || (el.name == 'Photos2')
+                            || (el.name == 'Photos3') || (el.name == 'Videos');
                     });
 
                     var filesOnly = results.filter((el) => {
@@ -140,16 +140,6 @@ class Collection extends Component {
         var uri;
         var deviceURI = auth0.deviceURI + auth0.deviceId;
 
-        if (item.mimeType == 'application/x.wd.dir') {
-            uri = '../../../folder.png';
-            return uri;
-        }
-
-        // if (!item.extension || item.extension == '.txt' || item.extension == ".pptx") {
-        //     uri = '../../../no-img.png';
-        //     return uri;
-        // }
-
         uri = deviceURI +
             '/sdk/v2/files/' + fileId +
             '/content?width=' + size +
@@ -159,28 +149,55 @@ class Collection extends Component {
     }
 
     renderRow(rowData) {
-        var pic;
+        var pic, line;
+        //console.log(rowData.extension);
 
-        if (rowData.extension == '.txt') {
-            pic = <Image
-                source={require('../../../no-img.png')}
-                resizeMode='stretch'
-                style={styles.img1}
-            />
-        }
 
         if (rowData.mimeType == 'application/x.wd.dir') {
             pic = <Image
                 source={require('../../../folder.png')}
                 resizeMode='stretch'
                 style={styles.img}
-            />
+            />;
+            line = <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+            }}>
+                <Text style={{fontWeight: 'bold', marginTop: 15}}>{rowData.name}</Text>
+            </View>
+
+        } else if (!rowData.extension || rowData.extension == '.pptx') {
+            pic = <Image
+                source={require('../../../no-img.png')}
+                resizeMode='stretch'
+                style={styles.img1}
+            />;
+            line = <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+            }}>
+                <Text style={{fontWeight: 'bold', margin: 5}}>{rowData.name}</Text>
+                <Text style={{margin: 5}}>{rowData.mTime.split(':')[0]}</Text>
+                <Text style={{margin: 5}}>{(rowData.size / 1024).toFixed(2)} Kb.</Text>
+            </View>
+
         } else {
             pic = <Image
                 source={{uri: this.getThumbnailURI(rowData)}}
                 resizeMode='stretch'
                 style={styles.img}
-            />
+            />;
+            line = <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+            }}>
+                <Text style={{fontWeight: 'bold', margin: 5}}>{rowData.name}</Text>
+                <Text style={{margin: 5}}>{rowData.mTime.split(':')[0]}</Text>
+                <Text style={{margin: 5}}>{(rowData.size / 1024).toFixed(2)} Kb.</Text>
+            </View>
         }
 
         return (
@@ -192,15 +209,8 @@ class Collection extends Component {
 
                     {pic}
 
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between'
-                    }}>
-                        <Text style={{fontWeight: 'bold', margin: 5}}>{rowData.name}</Text>
-                        <Text style={{margin: 5}}>{rowData.mTime.split(':')[0]}</Text>
-                        <Text style={{margin: 5}}>{(rowData.size / 1024).toFixed(2)} Kb.</Text>
-                    </View>
+                    {line}
+
                 </View>
             </TouchableHighlight>
         );
