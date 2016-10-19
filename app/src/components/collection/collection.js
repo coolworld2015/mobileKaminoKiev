@@ -67,9 +67,9 @@ class Collection extends Component {
 
                     var folders = results.filter((el) => {
                         return (el.mimeType == 'application/x.wd.dir');
-                            // && (el.name == 'Photos1')
-                            // || (el.name == 'Photos2') || (el.name == 'Photos2')
-                            // || (el.name == 'Photos3') || (el.name == 'Videos');
+                        // && (el.name == 'Photos1')
+                        // || (el.name == 'Photos2') || (el.name == 'Photos2')
+                        // || (el.name == 'Photos3') || (el.name == 'Videos');
                     });
 
                     var filesOnly = results.filter((el) => {
@@ -79,7 +79,7 @@ class Collection extends Component {
                     var items = [].concat(folders, filesOnly);
 
                     this.setState({
-                        dataSource: this.state.dataSource.cloneWithRows(items.slice(0,5)),
+                        dataSource: this.state.dataSource.cloneWithRows(items.slice(0, 5)),
                         resultsCount: items.length,
                         responseData: items
                     });
@@ -152,9 +152,13 @@ class Collection extends Component {
     }
 
     renderRow(rowData) {
-        var pic, line;
-        var extension = rowData.extension;
-        //console.log(rowData.extension);
+        var pic, line, extension;
+
+        extension = rowData.extension;
+
+        if (extension) {
+            extension = extension.toLowerCase()
+        }
 
         if (rowData.mimeType == 'application/x.wd.dir') {
             pic = <Image
@@ -171,7 +175,8 @@ class Collection extends Component {
             </View>
 
         } else if (!extension || extension != '.jpg' && extension != '.jpeg' && extension != '.png'
-             && extension != '.mov' && extension != '.mp4' && extension != '.m4v' && extension != '.avi' && extension != '.mkv') {
+            && extension != '.mov' && extension != '.mp4' && extension != '.m4v'
+            && extension != '.avi' && extension != '.wmv' && extension != '.mkv') {
 
             pic = <Image
                 source={require('../../../no-img.png')}
@@ -224,13 +229,13 @@ class Collection extends Component {
     refreshData(event) {
         var items, positionY, recordsCount;
 
-        this.setState({
-            resultsCount: event.nativeEvent.contentOffset.y
-        });
+        // this.setState({
+        //     resultsCount: event.nativeEvent.contentOffset.y
+        // });
 
         recordsCount = this.state.recordsCount;
         positionY = this.state.positionY;
-        items = this.state.responseData.slice(0,recordsCount);
+        items = this.state.responseData.slice(0, recordsCount);
 
         console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
 
@@ -296,6 +301,7 @@ class Collection extends Component {
                                    this.setState({
                                        dataSource: this.state.dataSource.cloneWithRows(items),
                                        resultsCount: items.length,
+                                       recordsCount: items.length
                                    })
                                }}
                                placeholder="Search">
