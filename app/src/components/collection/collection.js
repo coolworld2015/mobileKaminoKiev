@@ -29,7 +29,9 @@ class Collection extends Component {
             dataSource: ds.cloneWithRows([]),
             searchQuery: props.searchQuery,
             showProgress: true,
-            resultsCount: 0
+            resultsCount: 0,
+            recordsCount: 5,
+            positionY: 0
         };
 
         this.getCollection();
@@ -77,7 +79,7 @@ class Collection extends Component {
                     var items = [].concat(folders, filesOnly);
 
                     this.setState({
-                        dataSource: this.state.dataSource.cloneWithRows(items),
+                        dataSource: this.state.dataSource.cloneWithRows(items.slice(0,5)),
                         resultsCount: items.length,
                         responseData: items
                     });
@@ -220,6 +222,28 @@ class Collection extends Component {
     }
 
     refreshData(event) {
+        var items, positionY, recordsCount;
+
+        this.setState({
+            resultsCount: event.nativeEvent.contentOffset.y
+        });
+
+        recordsCount = this.state.recordsCount;
+        positionY = this.state.positionY;
+        items = this.state.responseData.slice(0,recordsCount);
+
+        console.log(positionY + ' - ' + recordsCount + ' - ' + items.length);
+
+        if (event.nativeEvent.contentOffset.y >= positionY - 110) {
+            console.log(items.length);
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(items),
+                recordsCount: recordsCount + 3,
+                positionY: positionY + 380
+            });
+
+        }
+
         if (event.nativeEvent.contentOffset.y <= -100) {
 
             this.setState({
