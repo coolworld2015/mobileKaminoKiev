@@ -35,7 +35,7 @@ class App extends Component {
 
         auth0 = {
             id_token: '',
-            deviceURI: 'https://qa1-proxy1.wdtest2.com:9443/',
+            deviceURI: 'https://dev1-proxy1.wdtest1.com:9443/',
             getFilesURI: '/sdk/v2/filesSearch/parents?ids=',
             //getFilesURI: '/sdk/v2/filesSearch/parents?ids=root&limit=1000',
             rootID: 'root',

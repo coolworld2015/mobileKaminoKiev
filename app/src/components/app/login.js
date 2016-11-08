@@ -41,10 +41,11 @@ class Login extends Component {
             showProgress: true
         });
 
-        fetch('https://wdc-qa1.auth0.com/oauth/ro', {
+        fetch('https://wdc-dev1.auth0.com/oauth/ro', {
             method: 'POST',
             body: JSON.stringify({
-                client_id: 'gpQeYeZGke7da9ag6bYpyJIZcaXIJxF2',
+                //client_id: 'gpQeYeZGke7da9ag6bYpyJIZcaXIJxF2',
+                client_id: 'rUf4IjPv7Vp5uXHF7DiDxk3FZ3A1Yf7m',
                 connection: 'Username-Password-Authentication',
                 device: '123456789',
                 grant_type: 'password',
@@ -63,9 +64,9 @@ class Login extends Component {
                 auth0.access_token = responseData.access_token;
                 auth0.id_token = responseData.id_token;
 
-                //console.log(auth0);
+                console.log(auth0);
 
-                fetch('https://wdc-qa1.auth0.com/userinfo', {
+                fetch('https://wdc-dev1.auth0.com/userinfo', {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + auth0.access_token
@@ -77,7 +78,7 @@ class Login extends Component {
 
                         //console.log('user_id - ' + auth0.user_id);
 
-                        fetch('https://qa1-device.remotewd1.com/device/v1/user/' + auth0.user_id, {
+                        fetch('https://dev1-device.remotewd1.com/device/v1/user/' + auth0.user_id, {
                             method: 'GET',
                             headers: {
                                 'Authorization': 'Bearer ' + auth0.id_token

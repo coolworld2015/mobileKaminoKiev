@@ -33,10 +33,9 @@ class CollectionDetails extends Component {
 
         uri = deviceURI +
             '/sdk/v2/files/' + fileId +
-            '/content?width=' + size +
-            '&height=' + size +
+            '/content?minWidth=' + size +
+            '&minHeight=' + size +
             '&access_token=' + auth0.id_token;
-
         return uri;
     }
 
