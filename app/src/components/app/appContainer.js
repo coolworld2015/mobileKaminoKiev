@@ -57,7 +57,8 @@ class AppContainer extends Component {
 
                 <TabBarIOS.Item
                     title="Logout"
-                    systemIcon="more"
+                    //systemIcon="more"
+                    icon={require('../../../log-out.png')}
                     selected={this.state.selectedTab == 'Logout'}
                     onPress={this.onLogOut.bind(this)}>
 
